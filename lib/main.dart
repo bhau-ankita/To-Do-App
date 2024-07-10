@@ -44,7 +44,30 @@ class MyApp extends StatelessWidget {
       title: 'To Do App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shadowColor: Colors.blue, // Button color
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.grey[800],
+          labelStyle: TextStyle(color: Colors.white),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+        ),
+      ),
+      themeMode: ThemeMode.light, // Use system theme (light/dark)
       home: BlocProvider(
         create: (context) => TaskBloc(databaseHelper: DatabaseHelper()),
         child: SplashScreen(),

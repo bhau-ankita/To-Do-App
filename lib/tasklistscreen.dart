@@ -69,9 +69,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -79,9 +77,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 itemCount: filteredTasks.length,
                 itemBuilder: (context, index) {
                   Task task = filteredTasks[index];
+                  int taskIndex = widget.tasks.indexOf(task);
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (_) => widget.deleteTask(index),
+                    onDismissed: (_) => widget.deleteTask(taskIndex),
                     background: Container(
                       color: Colors.red,
                       child: const Icon(Icons.delete, color: Colors.white),
@@ -90,9 +89,25 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     ),
                     direction: DismissDirection.endToStart,
                     child: Card(
-                      color: Colors.white54,
+                      margin: EdgeInsets.symmetric(vertical: 6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 3,
                       child: ListTile(
-                        title: Text(task.title),
+                        leading: _priorityIndicator(task.priority),
+                        title: Text(
+                          task.title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: task.isDone ?? false
+                                ? Colors.grey
+                                : Colors.black,
+                            decoration: task.isDone ?? false
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                          ),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -106,11 +121,22 @@ class _TaskListScreenState extends State<TaskListScreen> {
                             ),
                           ],
                         ),
-                        trailing: Checkbox(
-                          value: task.isDone ?? false,
-                          onChanged: (value) => widget.toggleTaskDone(index),
+                        trailing: IconButton(
+                          icon: Icon(
+                            task.isDone ?? false
+                                ? Icons.check_box
+                                : Icons.check_box_outline_blank,
+                            color: task.isDone ?? false
+                                ? Colors.green
+                                : Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              widget.toggleTaskDone(taskIndex);
+                            });
+                          },
                         ),
-                        onLongPress: () => widget.deleteTask(index),
+                        onLongPress: () => widget.deleteTask(taskIndex),
                       ),
                     ),
                   );
@@ -135,5 +161,34 @@ class _TaskListScreenState extends State<TaskListScreen> {
       default:
         return 4;
     }
+  }
+
+  // Priority indicator
+  Widget _priorityIndicator(String priority) {
+    Color color;
+    switch (priority) {
+      case 'High':
+        color = Colors.red;
+        break;
+      case 'Medium':
+        color = Colors.orange;
+        break;
+      case 'Low':
+        color = Colors.green;
+        break;
+      default:
+        color = Colors.grey;
+    }
+    return Container(
+      width: 10,
+      height: 40,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+        ),
+      ),
+    );
   }
 }

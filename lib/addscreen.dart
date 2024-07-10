@@ -61,7 +61,7 @@ class _AppTaskState extends State<AppTask> {
     return Center(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,52 +75,129 @@ class _AppTaskState extends State<AppTask> {
                   fit: BoxFit.cover,
                 ),
               ),
-              TextField(
-                controller: widget.titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Task Title',
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 12),
-              TextField(
-                controller: widget.descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Task Description',
-                ),
-              ),
-              SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                value: widget.selectedPriority,
-                items: ['Low', 'Medium', 'High'].map((String priority) {
-                  return DropdownMenuItem<String>(
-                    value: priority,
-                    child: Text(priority),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    widget.selectedPriority = newValue!;
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Priority Level',
-                ),
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Due Date: ${DateFormat('yyyy-MM-dd').format(widget.selectedDate)}",
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: widget.titleController,
+                    decoration: const InputDecoration(
+                      labelText: 'Task Title',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () => widget.selectDate(context),
-                  ),
-                ],
+                ),
               ),
               SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: widget.descriptionController,
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      labelText: 'Task Description',
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField<String>(
+                    value: widget.selectedPriority,
+                    items: ['Low', 'Medium', 'High'].map((String priority) {
+                      return DropdownMenuItem<String>(
+                        value: priority,
+                        child: Text(priority),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        widget.selectedPriority = newValue!;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Priority Level',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Due Date: ${DateFormat('yyyy-MM-dd').format(widget.selectedDate)}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today),
+                        onPressed: () => widget.selectDate(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (widget.titleController.text.isNotEmpty &&
@@ -139,7 +216,20 @@ class _AppTaskState extends State<AppTask> {
                     print('Empty fields');
                   }
                 },
-                child: const Text('Add Task'),
+                style: ElevatedButton.styleFrom(
+                  //primary: Colors.blue, // Button color
+                  //onPrimary: Colors.white, // Text color
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  textStyle:
+                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                child: const Text(
+                  'Add Task',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ],
           ),
@@ -152,7 +242,10 @@ class _AppTaskState extends State<AppTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: null, // Hide the title
+        title: Text(
+          'To-Do App',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
@@ -173,6 +266,8 @@ class _AppTaskState extends State<AppTask> {
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF3D424A),
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );
